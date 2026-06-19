@@ -7,12 +7,12 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>tr</language>
-    <lastBuildDate>Fri, 19 Jun 2026 08:54:01 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2026 09:06:32 +0000</lastBuildDate>
     <item>
       <title>Filler Diyalog</title>
-      <guid isPermaLink="false">https://ad3le.github.io/turkce-feed/audio/20260619-1054.mp3</guid>
-      <enclosure url="https://ad3le.github.io/turkce-feed/audio/20260619-1054.mp3" length="0" type="audio/mpeg"/>
-      <pubDate>Fri, 19 Jun 2026 10:54:01 +0200</pubDate>
+      <guid isPermaLink="false">https://ad3le.github.io/turkce-feed/audio/20260619-1106.mp3</guid>
+      <enclosure url="https://ad3le.github.io/turkce-feed/audio/20260619-1106.mp3" length="311328" type="audio/mpeg"/>
+      <pubDate>Fri, 19 Jun 2026 11:06:32 +0200</pubDate>
     </item>
   </channel>
 </rss>

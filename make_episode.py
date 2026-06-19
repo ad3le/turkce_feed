@@ -28,7 +28,7 @@ def build_feed():
     for ep in eps:                      # newest first handled by app
         fe = fg.add_entry()
         fe.id(ep["url"]); fe.title(ep["title"])
-        fe.enclosure(ep["url"], 0, "audio/mpeg")
+        fe.enclosure(ep["url"], str(ep.get("size", 0)), "audio/mpeg")
         fe.pubDate(ep["date"])
     fg.rss_file(str(ROOT / "feed.xml"), pretty=True)
 
@@ -36,12 +36,13 @@ if __name__ == "__main__":
     title = sys.argv[1] if len(sys.argv) > 1 else "Hikaye"
     text = Path(sys.argv[2]).read_text(encoding="utf-8")  # text file path
     name = slug()
-    make_audio(text, name, "tr-TR-EmelNeural")
+    out_path = make_audio(text, name, "tr-TR-EmelNeural")
     eps = json.loads(META.read_text(encoding="utf-8")) if META.exists() else []
     eps.insert(0, {
         "title": title,
         "url": f"{BASE}/audio/{name}.mp3",
         "date": datetime.datetime.now().astimezone().isoformat(),
+        "size": out_path.stat().st_size,      # ← add this line
     })
     META.write_text(json.dumps(eps, indent=2, ensure_ascii=False), encoding="utf-8")
     build_feed()
