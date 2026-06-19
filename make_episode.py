@@ -1,5 +1,6 @@
 # make_episode.py — pip install edge-tts feedgen
 import asyncio, json, sys, datetime, subprocess
+import edge_tts
 from pathlib import Path
 from feedgen.feed import FeedGenerator
 
@@ -13,12 +14,14 @@ def slug():
 
 def make_audio(text, name, voice="tr-TR-EmelNeural"):
     out = AUDIO / f"{name}.mp3"
-    subprocess.run(["edge-tts", "--voice", voice,
-                    "--text", text, "--write-media", str(out)], check=True)
+    async def _run():
+        communicate = edge_tts.Communicate(text, voice)
+        await communicate.save(str(out))
+    asyncio.run(_run())
     return out
 
 def build_feed():
-    eps = json.loads(META.read_text()) if META.exists() else []
+    eps = json.loads(META.read_text(encoding="utf-8")) if META.exists() else []
     fg = FeedGenerator(); fg.load_extension("podcast")
     fg.title("Türkçe Hikayeler"); fg.link(href=BASE)
     fg.description("My Turkish learning stories"); fg.language("tr")
@@ -34,12 +37,12 @@ if __name__ == "__main__":
     text = Path(sys.argv[2]).read_text(encoding="utf-8")  # text file path
     name = slug()
     make_audio(text, name, "tr-TR-EmelNeural")
-    eps = json.loads(META.read_text()) if META.exists() else []
+    eps = json.loads(META.read_text(encoding="utf-8")) if META.exists() else []
     eps.insert(0, {
         "title": title,
         "url": f"{BASE}/audio/{name}.mp3",
         "date": datetime.datetime.now().astimezone().isoformat(),
     })
-    META.write_text(json.dumps(eps, indent=2, ensure_ascii=False))
+    META.write_text(json.dumps(eps, indent=2, ensure_ascii=False), encoding="utf-8")
     build_feed()
     print(f"Added '{title}'. Now: git add -A && git commit -m '{title}' && git push")
