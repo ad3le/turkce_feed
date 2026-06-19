@@ -4,7 +4,7 @@ import edge_tts
 from pathlib import Path
 from feedgen.feed import FeedGenerator
 
-BASE = "https://ad3le.github.io/turkce-feed"  # ← your Pages URL
+BASE = "https://ad3le.github.io/turkce_feed"  # ← your Pages URL
 ROOT = Path(__file__).parent
 AUDIO = ROOT / "audio"; AUDIO.mkdir(exist_ok=True)
 META = ROOT / "episodes.json"
